@@ -13,6 +13,7 @@ namespace RE
 		std::uint32_t variableID;      // 20C
 		TESForm* form;                 // 210
 	};
+
 	static_assert(sizeof(SCRIPT_WORD) == 0x218);
 }
 
@@ -60,7 +61,7 @@ private:
 			REL::safe_fill(target.address() + TARGET_ADDR, REL::NOP, TARGET_FILL);
 
 			auto code = GetReferencedObjectPatch(
-				reinterpret_cast<std::uintptr_t>(GetReferencedObject), 
+				reinterpret_cast<std::uintptr_t>(GetReferencedObject),
 				target.address() + TARGET_RETN);
 			auto& trampoline = SFSE::GetTrampoline();
 			trampoline.write_branch<5>(target.address() + TARGET_ADDR, trampoline.allocate(code));
