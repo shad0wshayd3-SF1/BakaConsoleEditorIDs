@@ -5,7 +5,7 @@ set_xmakever("2.9.4")
 includes("extern/commonlibsf")
 
 -- set project
-set_project("BakaConsoleMod")
+set_project("BakaConsoleEditorIDs")
 set_version("1.0.0")
 set_license("GPL-3.0")
 
@@ -23,15 +23,18 @@ set_policy("build.optimization.lto", true)
 add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
+-- enable xbyak
+set_config("sfse_xbyak", true)
+
 -- setup targets
-target("BakaConsoleMod")
+target("BakaConsoleEditorIDs")
     -- bind local dependencies
     add_deps("commonlibsf")
 
     -- add commonlibsf plugin
     add_rules("commonlibsf.plugin", {
-        name = "BakaConsoleMod",
-        author = "shad0wshayd3-SF1"
+        name = "BakaConsoleEditorIDs",
+        author = "shad0wshayd3"
     })
 
     -- add source files
