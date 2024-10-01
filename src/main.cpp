@@ -1,22 +1,3 @@
-namespace RE
-{
-	enum class SCRIPT_OUTPUT;
-
-	struct SCRIPT_WORD
-	{
-	public:
-		// members
-		char text[512];                // 000
-		std::uint32_t refObjectIndex;  // 200
-		char variableType;             // 204
-		SCRIPT_OUTPUT functionCode;    // 208
-		std::uint32_t variableID;      // 20C
-		TESForm* form;                 // 210
-	};
-
-	static_assert(sizeof(SCRIPT_WORD) == 0x218);
-}
-
 class Hooks
 {
 public:
