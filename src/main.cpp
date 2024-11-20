@@ -83,7 +83,7 @@ SFSEPluginLoad(const SFSE::LoadInterface* a_sfse)
 {
 	SFSE::Init(a_sfse);
 
-	SFSE::AllocTrampoline(16);
+	SFSE::AllocTrampoline(64);
 	SFSE::GetMessagingInterface()->RegisterListener(MessageCallback);
 
 	return true;
