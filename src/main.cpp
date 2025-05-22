@@ -41,18 +41,19 @@ namespace Hooks
 				}
 			};
 
-			static REL::Relocation target{ REL::ID(109296) };
-			static constexpr auto TARGET_ADDR{ 0x14D };
-			static constexpr auto TARGET_RETN{ 0x17C };
-			static constexpr auto TARGET_FILL{ TARGET_RETN - TARGET_ADDR };
-			REL::safe_fill(target.address() + TARGET_ADDR, REL::NOP, TARGET_FILL);
+			static REL::Relocation target{ REL::ID(65832) };
+			static constexpr auto  TARGET_ADDR{ 0x1FF };
+			static constexpr auto  TARGET_RETN{ 0x232 };
+			static constexpr auto  TARGET_FILL{ TARGET_RETN - TARGET_ADDR };
+			target.write_fill<TARGET_ADDR>(REL::NOP, TARGET_FILL);
 
 			auto code = GetReferencedObjectPatch{
 				reinterpret_cast<std::uintptr_t>(GetReferencedObject),
 				target.address() + TARGET_RETN
 			};
-			auto& trampoline = SFSE::GetTrampoline();
-			trampoline.write_branch<5>(target.address() + TARGET_ADDR, trampoline.allocate(code));
+
+			auto& trampoline = REL::GetTrampoline();
+			trampoline.write_jmp<5>(target.address() + TARGET_ADDR, trampoline.allocate(code));
 		}
 	}
 
@@ -69,10 +70,8 @@ namespace
 		switch (a_msg->type)
 		{
 		case SFSE::MessagingInterface::kPostLoad:
-		{
 			Hooks::Install();
 			break;
-		}
 		default:
 			break;
 		}
@@ -81,10 +80,7 @@ namespace
 
 SFSEPluginLoad(const SFSE::LoadInterface* a_sfse)
 {
-	SFSE::Init(a_sfse);
-
-	SFSE::AllocTrampoline(64);
+	SFSE::Init(a_sfse, { .trampoline = true, .trampolineSize = 64 });
 	SFSE::GetMessagingInterface()->RegisterListener(MessageCallback);
-
 	return true;
 }
